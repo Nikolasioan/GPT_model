@@ -37,26 +37,31 @@ class Trainer:
     
     @torch.no_grad() # Turns off gradient tracking. Makes evaluation faster and lighter.
     def evaluate(self, k=5):
-        "Evaluate with loss, perplexity, and top-k accuracy."
+        "Evaluate with loss, perplexity, top-1 and top-k accuracy."
         self.model.eval() # Switch model to evaluation mode.
-        losses, accs = [], []
+        losses, topk_accs, top1_accs = [], [], []
         for _ in range(self.eval_batches):
             inputs, targets = self.get_batch(self.val_data) 
             logits = self.model(inputs)
             losses.append(CrossEntropyLoss(logits, targets).item())  # Append the average of cross entropy across the full logits and targets sequence.
+            
             topk = logits.topk(k, dim=-1).indices # top-k token ids at each position: (batch, seq_len, k).
-            correct = topk.eq(targets.unsqueeze(-1)).any(-1) # True if the true token is among the k: (batch, seq_len).
-            accs.append(correct.float().mean().item()) # Append the fraction of positions where the target was in the top k.
+            topk_correct = topk.eq(targets.unsqueeze(-1)).any(-1)  # True if the true token is among the k: (batch, seq_len).
+
+            top1_correct = topk[..., 0] == targets
+
+            top1_accs.append(top1_correct.float().mean().item())  
+            topk_accs.append(topk_correct.float().mean().item()) # Append the fraction of positions where the target was in the top k.
         self.model.train() # Switch model again to train mode.
         val_loss = sum(losses) / len(losses)
-        return val_loss, math.exp(val_loss), sum(accs) / len(accs)   # Returns loss, perplexity and top-k accuracy.
+        return k, val_loss, math.exp(val_loss), sum(top1_accs) / len(top1_accs), sum(topk_accs) / len(topk_accs)  # Returns loss, perplexity and top-k accuracy, top-1 accuracy.
 
 
     def train(self, steps):
         # In LLMs the standard approach is to train with steps. Instead of using epochs, papers measure training in tokens seen or steps (One batch processed).
         self.model.train() # Switch the model to training mode (dropout on, batch normalization mean and std.)
         for step in range(steps):
-            inputs, targets = self.get_batch()
+            inputs, targets = self.get_batch(self.train_data)
 
             logits = self.model(inputs)               
             loss   = CrossEntropyLoss(logits, targets)
@@ -66,6 +71,6 @@ class Trainer:
             self.optimizer.step()                       # Update the weights. 
 
             if step % self.eval_interval == 0:
-                            val_loss, val_ppl, val_acc = self.evaluate()
+                            k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
                             print(f"step {step:5d} | train loss {loss.item():.4f} "
-                                f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} | val acc {val_acc:.3f}")
+                                f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} | val top-1 acc{val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
