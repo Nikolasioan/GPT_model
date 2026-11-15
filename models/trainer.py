@@ -1,9 +1,11 @@
 import torch
 import math
+from pathlib import Path
 
 from models.full_model import GPT
 from models.loss_function import CrossEntropyLoss
 
+WEIGHTS_DIR = Path(__file__).resolve().parent.parent / "weights"
 
 class Trainer:
     "Training loop of a GPT."
@@ -12,14 +14,13 @@ class Trainer:
                  val_fraction=0.1, eval_interval=100, eval_batches=20,
                  optimizer_cls=torch.optim.AdamW, optimizer_kwargs=None):
         self.model      = model.to(device)
-        self.data       = data.to(device) 
+        data = data.to(device) # 1-D tensor of token IDs. The full training data are concatenated into one giant stream with each text separated  with an end-of-text token (<eos> := end of sequence).
         self.seq_len    = seq_len
         self.batch_size = batch_size
         self.device     = device
         self.eval_interval = eval_interval
         self.eval_batches  = eval_batches
 
-        data = data.to(device) # 1-D tensor of token IDs. The full training data are concatenated into one giant stream with each text separated  with an end-of-text token (<eos> := end of sequence).
         n = int((1 - val_fraction) * len(data))
         self.train_data = data[:n] # Split data into training and valuation set.
         self.val_data   = data[n:]
@@ -56,6 +57,14 @@ class Trainer:
         val_loss = sum(losses) / len(losses)
         return k, val_loss, math.exp(val_loss), sum(top1_accs) / len(top1_accs), sum(topk_accs) / len(topk_accs)  # Returns loss, perplexity and top-k accuracy, top-1 accuracy.
 
+    def save(self, name="gpt.pt"):
+        "Save the model's weights."
+        WEIGHTS_DIR.mkdir(parents=True, exist_ok=True)    
+        torch.save(self.model.state_dict(), WEIGHTS_DIR / name)
+
+    def load(self, name="gpt.pt"):
+        "Load weights into the model."
+        self.model.load_state_dict(torch.load(WEIGHTS_DIR / name, map_location=self.device))
 
     def train(self, steps):
         # In LLMs the standard approach is to train with steps. Instead of using epochs, papers measure training in tokens seen or steps (One batch processed).
@@ -70,7 +79,8 @@ class Trainer:
             loss.backward()                             # Backpropapgation: It computes, for every weight in the model, the gradient.
             self.optimizer.step()                       # Update the weights. 
 
-            if step % self.eval_interval == 0:
-                            k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
-                            print(f"step {step:5d} | train loss {loss.item():.4f} "
-                                f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} | val top-1 acc{val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
+        if step % self.eval_interval == 0:
+            k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
+            print(f"step {step:5d} | train loss {loss.item():.4f} "
+                f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} "
+                f"| val top-1 acc {val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
