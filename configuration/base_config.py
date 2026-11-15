@@ -17,11 +17,11 @@ class BaseConfig:
     seq_len    = 128
     batch_size = 16
     lr         = 3e-4
-    steps      = 2000
-
+    steps = 50
+    
     # evaluation
     val_fraction  = 0.1
-    eval_interval = 100
+    eval_interval = 10
     eval_batches  = 20
 
     # settings

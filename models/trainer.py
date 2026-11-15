@@ -79,8 +79,8 @@ class Trainer:
             loss.backward()                             # Backpropapgation: It computes, for every weight in the model, the gradient.
             self.optimizer.step()                       # Update the weights. 
 
-        if step % self.eval_interval == 0:
-            k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
-            print(f"step {step:5d} | train loss {loss.item():.4f} "
-                f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} "
-                f"| val top-1 acc {val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
+            if step % self.eval_interval == 0:
+                k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
+                print(f"step {step:5d} | train loss {loss.item():.4f} "
+                    f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} "
+                    f"| val top-1 acc {val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
