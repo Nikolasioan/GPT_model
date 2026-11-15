@@ -2,41 +2,43 @@ import sys
 import torch
 from pathlib import Path
 
-from config import settings
+from cli import parse_args
 from models.bpe_tokenizer import BPETokenizer
 from models.full_model import GPT
 from models.trainer import Trainer
 
 
-data_path = Path(__file__).resolve().parent / settings.data_file
+args = parse_args()
+
+data_path = Path(__file__).resolve().parent / args.data_file
 if not data_path.exists():
     sys.exit(f"Error: training file not found: {data_path}")
 text = data_path.read_text(encoding="utf-8")
 
 tok = BPETokenizer()
-tok.train(text, num_merges=settings.num_merges)
+tok.train(text, num_merges=args.num_merges)
 ids = torch.tensor(tok.encode(text), dtype=torch.long)
-print(f"device: {settings.device} | vocab: {len(tok.vocab)} | tokens: {len(ids)}")
+print(f"device: {args.device} | vocab: {len(tok.vocab)} | tokens: {len(ids)}")
 
 model = GPT(
     vocab_size = len(tok.vocab),
-    embed_dim  = settings.embed_dim,
-    num_heads  = settings.num_heads,
-    num_layers = settings.num_layers,
-    max_len    = settings.max_len,
+    embed_dim  = args.embed_dim,
+    num_heads  = args.num_heads,
+    num_layers = args.num_layers,
+    max_len    = args.max_len,
 )
 
 trainer = Trainer(
     model, ids,
-    seq_len       = settings.seq_len,
-    batch_size    = settings.batch_size,
-    lr            = settings.lr,
-    device        = settings.device,
-    val_fraction  = settings.val_fraction,
-    eval_interval = settings.eval_interval,
-    eval_batches  = settings.eval_batches,
+    seq_len       = args.seq_len,
+    batch_size    = args.batch_size,
+    lr            = args.lr,
+    device        = args.device,
+    val_fraction  = args.val_fraction,
+    eval_interval = args.eval_interval,
+    eval_batches  = args.eval_batches,
 )
-trainer.train(steps=settings.steps)
+trainer.train(steps=args.steps)
 
-trainer.save(settings.weights_name)
-print(f"saved to weights/{settings.weights_name}")
+trainer.save(args.weights_name)
+print(f"saved to weights/{args.weights_name}")

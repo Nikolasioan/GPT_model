@@ -1,0 +1,27 @@
+import argparse
+
+from config import settings
+
+
+def parse_args():
+    "Parse command-line arguments, defaulting to the config values."
+    p = argparse.ArgumentParser(
+        description="Train the GPT model.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,   # With this it also shows default values.
+    )
+    p.add_argument("--num_merges",    type=int,   default=settings.num_merges,    help="number of BPE merges (≈ vocab size)")
+    p.add_argument("--embed_dim",     type=int,   default=settings.embed_dim,     help="embedding dimension")
+    p.add_argument("--num_heads",     type=int,   default=settings.num_heads,     help="number of attention heads")
+    p.add_argument("--num_layers",    type=int,   default=settings.num_layers,    help="number of transformer blocks")
+    p.add_argument("--max_len",       type=int,   default=settings.max_len,       help="max sequence length (context window)")
+    p.add_argument("--seq_len",       type=int,   default=settings.seq_len,       help="training window length")
+    p.add_argument("--batch_size",    type=int,   default=settings.batch_size,    help="sequences per batch")
+    p.add_argument("--lr",            type=float, default=settings.lr,            help="learning rate")
+    p.add_argument("--steps",         type=int,   default=settings.steps,         help="number of training steps")
+    p.add_argument("--val_fraction",  type=float, default=settings.val_fraction,  help="fraction of data held out for validation")
+    p.add_argument("--eval_interval", type=int,   default=settings.eval_interval, help="steps between validation checks")
+    p.add_argument("--eval_batches",  type=int,   default=settings.eval_batches,  help="batches used per validation")
+    p.add_argument("--device",        type=str,   default=settings.device,        help="cpu or cuda")
+    p.add_argument("--weights_name",  type=str,   default=settings.weights_name,  help="filename to save the weights as")
+    p.add_argument("--data_file",     type=str,   default=settings.data_file,     help="path to the training text file")
+    return p.parse_args() # This reads what you typed in the terminal (Separate words by space) and turns it into an args object.
