@@ -47,15 +47,15 @@ curl -o data/input.txt https://raw.githubusercontent.com/karpathy/char-rnn/maste
 ### 3. Train
 
 ```bash
-python main.py
+python train.py
 ```
 
 Override any setting from the command line (falls back to the config otherwise):
 
 ```bash
-python main.py --steps 5000 --lr 1e-4
-python main.py --embed_dim 256 --num_layers 6
-python main.py --help
+python train.py --steps 5000 --lr 1e-4
+python train.py --embed_dim 256 --num_layers 6
+python train.py --help
 ```
 
 Weights are saved to `weights/gpt.pt`.
