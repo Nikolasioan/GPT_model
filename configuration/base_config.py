@@ -18,6 +18,7 @@ class BaseConfig:
     batch_size = 16
     lr         = 3e-4
     steps = 50
+    save_interval = 500 
     
     # evaluation
     val_fraction  = 0.1

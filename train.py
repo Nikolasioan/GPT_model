@@ -42,7 +42,11 @@ trainer = Trainer(
 )
 
 # Start the training process.
-trainer.train(steps=args.steps)
+trainer.train(
+    steps        = args.steps,
+    save_every   = args.save_interval,
+    weights_name = args.weights_name,
+)
 
 # Save the wirghts of the model.
 trainer.save(args.weights_name)

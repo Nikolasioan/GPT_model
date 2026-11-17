@@ -66,9 +66,11 @@ class Trainer:
         "Load weights into the model."
         self.model.load_state_dict(torch.load(WEIGHTS_DIR / name, map_location=self.device))
 
-    def train(self, steps):
+    def train(self, steps, save_every=None, weights_name="gpt.pt"):
         # In LLMs the standard approach is to train with steps. Instead of using epochs, papers measure training in tokens seen or steps (One batch processed).
         self.model.train() # Switch the model to training mode (dropout on, batch normalization mean and std.)
+        stem, suffix = Path(weights_name).stem, Path(weights_name).suffix  # Split "gpt.pt" into "gpt" and ".pt".
+        ckpt_idx = 0 # Counter so each checkpoint gets its own name (gpt_1, gpt_2, ...) instead of overriding.
         for step in range(steps):
             inputs, targets = self.get_batch(self.train_data)
 
@@ -84,3 +86,9 @@ class Trainer:
                 print(f"step {step:5d} | train loss {loss.item():.4f} "
                     f"| val loss {val_loss:.4f} | val ppl {val_ppl:6.2f} "
                     f"| val top-1 acc {val_top1:.3f} | val top-{k} acc {val_topk:.3f}")
+                
+            if save_every and step > 0 and step % save_every == 0:  # Periodic checkpoint. save_every = None or 0 turns it off.
+                ckpt_idx += 1
+                ckpt_name = f"{stem}_{ckpt_idx}{suffix}"            
+                self.save(ckpt_name)
+                print(f"  checkpoint {ckpt_idx} saved at step {step} -> weights/{ckpt_name}")
