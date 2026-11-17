@@ -17,7 +17,7 @@ text = data_path.read_text(encoding="utf-8")
 
 tok = BPETokenizer() # Initialize the tokenizer.
 tok.train(text, num_merges=args.num_merges) # Train the tokenizer.
-ids = torch.tensor(tok.encode(text), dtype=torch.long)
+ids = torch.tensor(tok.encode(text), dtype=torch.long) # Turn the training set to a tensor of token ids.
 print(f"device: {args.device} | vocab: {len(tok.vocab)} | tokens: {len(ids)}")
 
 # Initialize the model.
