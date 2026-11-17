@@ -58,6 +58,13 @@ python train.py --embed_dim 256 --num_layers 6
 python train.py --help
 ```
 
+Resume from a saved checkpoint instead of starting fresh:
+
+```bash
+python train.py --resume                          # continue from weights/gpt.pt
+python train.py --resume --weights_name gpt_3.pt  # continue from a specific checkpoint
+```
+
 Weights are saved to `weights/gpt.pt`.
 
 ### 4. Generate

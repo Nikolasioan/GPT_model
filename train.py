@@ -41,6 +41,13 @@ trainer = Trainer(
     eval_batches  = args.eval_batches,
 )
 
+if args.resume:
+    ckpt = Path(__file__).resolve().parent / "weights" / args.weights_name
+    if not ckpt.exists():
+        sys.exit(f"--resume given but weights not found: {ckpt}")
+    trainer.load(args.weights_name)
+    print(f"resumed from weights/{args.weights_name}")
+
 # Start the training process.
 trainer.train(
     steps        = args.steps,

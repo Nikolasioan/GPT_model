@@ -25,6 +25,7 @@ def parse_args():
     p.add_argument("--weights_name",  type=str,   default=settings.weights_name,  help="filename to save the weights as")
     p.add_argument("--data_file",     type=str,   default=settings.data_file,     help="path to the training text file")
     p.add_argument("--save_interval", type=int, default=settings.save_interval,   help="save a checkpoint every N steps (0 = only at the end)")
+    p.add_argument("--resume", action="store_true", help="load existing weights (--weights_name) and continue training")
     return p.parse_args() # This reads what you typed in the terminal (Separate words by space) and turns it into an args object.
 
 def parse_generate_args():

@@ -91,4 +91,9 @@ class Trainer:
                 ckpt_idx += 1
                 ckpt_name = f"{stem}_{ckpt_idx}{suffix}"            
                 self.save(ckpt_name)
-                print(f"  checkpoint {ckpt_idx} saved at step {step} -> weights/{ckpt_name}")
+
+                k, val_loss, val_ppl, val_top1, val_topk = self.evaluate()
+                print(f"  checkpoint {ckpt_idx} ({ckpt_name}) saved at step {step:5d} "
+                    f"| train loss {loss.item():.4f} | val loss {val_loss:.4f} "
+                    f"| val ppl {val_ppl:6.2f} | val top-1 acc {val_top1:.3f} "
+                    f"| val top-{k} acc {val_topk:.3f}")
