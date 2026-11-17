@@ -8,7 +8,7 @@ class BaseConfig:
     num_merges = 500
 
     # model
-    embed_dim  = 128
+    embed_dim  = 128 # Almost always multiple of 64.
     num_heads  = 4
     num_layers = 4
     max_len    = 256
@@ -18,7 +18,6 @@ class BaseConfig:
     batch_size = 16
     lr         = 3e-4
     steps = 50
-    save_interval = 500 
     
     # evaluation
     val_fraction  = 0.1
