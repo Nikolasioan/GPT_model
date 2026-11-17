@@ -25,3 +25,13 @@ def parse_args():
     p.add_argument("--weights_name",  type=str,   default=settings.weights_name,  help="filename to save the weights as")
     p.add_argument("--data_file",     type=str,   default=settings.data_file,     help="path to the training text file")
     return p.parse_args() # This reads what you typed in the terminal (Separate words by space) and turns it into an args object.
+
+def parse_generate_args():
+    "Parse command-line arguments for generation."
+    p = argparse.ArgumentParser(description="Generate text with the trained GPT.")
+    p.add_argument("--prompt",         type=str,   default="ROMEO:", help="starting text")
+    p.add_argument("--max_new_tokens", type=int,   default=300,      help="how many tokens to generate")
+    p.add_argument("--temperature",    type=float, default=0.8,      help="randomness (lower = safer)")
+    p.add_argument("--top_k",          type=int,   default=50,       help="sample from the top-k tokens")
+    p.add_argument("--weights_name",   type=str,   default=settings.weights_name, help="weights file to load")
+    return p.parse_args()
