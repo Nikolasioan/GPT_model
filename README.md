@@ -2,8 +2,6 @@
 
 A GPT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation.
 
-**Dataset:** trained on [TinyStories](https://huggingface.co/datasets/roneneldan/TinyStories) — a collection of short, simple stories written with a small vocabulary, designed for training compact language models.
-
 ---
 
 ## Architecture
@@ -84,7 +82,12 @@ python generate.py --help
 
 ## Evaluation
 
-The model was trained on a corpus of **4,872,751 tokens** with a tokenizer vocabulary of **2,096**. Every 250 steps we logged training and validation loss, validation perplexity, and top-1 / top-5 next-token accuracy, saving a checkpoint every 2,000 steps. The full set of hyperparameters used for this run:
+The model was trained on a corpus of **4,872,751 tokens** with a tokenizer vocabulary of **2,096**. Every 250 steps we logged training and validation loss, validation perplexity, and top-1 / top-5 next-token accuracy, saving a checkpoint every 2,000 steps.
+
+**Dataset:** trained on [TinyStories](https://huggingface.co/datasets/roneneldan/TinyStories) — a collection of short, simple stories written with a small vocabulary, designed for training compact language models.
+
+
+ The full set of hyperparameters used for this run:
 
 <div align="center">
 
