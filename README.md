@@ -2,8 +2,6 @@
 
 A GPT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation.
 
----
-
 ## Architecture
 
 The model processes text one stage at a time:
