@@ -6,7 +6,7 @@ class PositionalEncoding(nn.Module):
 
     def __init__(self, max_length, embed_dim): # Max length is the longest sequence of tokens the model can handle as text input.
         super().__init__()
-        self.pos_embedding = nn.Embedding(max_length, embed_dim)  # The original Attention is all you need paper used sinusoidal positional Embeddings (Maybe I change it later).
+        self.pos_embedding = nn.Embedding(max_length, embed_dim)  # The original Attention is all you need paper used sinusoidal positional Embeddings (Maybe I change it later). With random positional embeddings 1 and 2 are as unrelated as 1 and 50. With sinusoidal positional encoding it makes nearby positions to have similar positional encodings and and far vectors dissimilar.
 
     def forward(self, x): # Input: (batch_size, sequence_length). Batch size is if you want to put more than 1 data inputs (texts) at the same time.
         sequence_length = x.size(1) 
