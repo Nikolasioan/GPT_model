@@ -1,6 +1,7 @@
 # GPT from Scratch
 
-A GPT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation.
+A GPT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation. The architecture is based on the Transformer introduced in *Attention Is All You Need* (Vaswani et al., 2017).
+
 
 ## Architecture
 
@@ -148,7 +149,7 @@ The model was trained on a corpus of **4,872,751 tokens** with a tokenizer vocab
   <tr><td>Minimum perplexity</td><td>10.41</td><td>5,750</td></tr>
   <tr><td>Best top-1 accuracy</td><td>0.474</td><td>7,250</td></tr>
   <tr><td>Best top-5 accuracy</td><td>0.741</td><td>5,500</td></tr>
-  <tr><td><b>Selected checkpoint</b></td><td><b>gpt_4.pt</b></td><td><b>8,000</b></td></tr>
+  <tr><td><b>Selected checkpoint</b></td><td><b>gpt_3.pt</b></td><td><b>6,000</b></td></tr>
 </table>
 
 </div>
@@ -185,7 +186,7 @@ The model was trained on a corpus of **4,872,751 tokens** with a tokenizer vocab
   <tr><td>5250</td><td>1.9084</td><td>2.3860</td><td>10.87</td><td>0.468</td><td>0.733</td><td></td></tr>
   <tr><td>5500</td><td>1.9678</td><td>2.3486</td><td>10.47</td><td>0.471</td><td>0.741</td><td></td></tr>
   <tr><td>5750</td><td>1.8330</td><td>2.3426</td><td>10.41</td><td>0.473</td><td>0.740</td><td></td></tr>
-  <tr><td>6000</td><td>1.8602</td><td>2.3637</td><td>10.63</td><td>0.469</td><td>0.737</td><td>gpt_3.pt</td></tr>
+  <tr><td>6000</td><td>1.8602</td><td>2.3637</td><td>10.63</td><td>0.469</td><td>0.737</td><td><b>gpt_3.pt</b></td></tr>
   <tr><td>6250</td><td>1.8333</td><td>2.3714</td><td>10.71</td><td>0.470</td><td>0.738</td><td></td></tr>
   <tr><td>6500</td><td>1.8075</td><td>2.3658</td><td>10.65</td><td>0.472</td><td>0.739</td><td></td></tr>
   <tr><td>6750</td><td>1.6823</td><td>2.3779</td><td>10.78</td><td>0.469</td><td>0.739</td><td></td></tr>
@@ -193,7 +194,7 @@ The model was trained on a corpus of **4,872,751 tokens** with a tokenizer vocab
   <tr><td>7250</td><td>1.7581</td><td>2.3753</td><td>10.75</td><td>0.474</td><td>0.739</td><td></td></tr>
   <tr><td>7500</td><td>1.6931</td><td>2.3899</td><td>10.91</td><td>0.471</td><td>0.738</td><td></td></tr>
   <tr><td>7750</td><td>1.6253</td><td>2.4104</td><td>11.14</td><td>0.467</td><td>0.735</td><td></td></tr>
-  <tr><td><b>8000</b></td><td><b>1.5931</b></td><td><b>2.3966</b></td><td><b>10.99</b></td><td><b>0.472</b></td><td><b>0.736</b></td><td><b>gpt_4.pt (selected)</b></td></tr>
+  <tr><td><b>8000</b></td><td><b>1.5931</b></td><td><b>2.3966</b></td><td><b>10.99</b></td><td><b>0.472</b></td><td><b>0.736</b></td><td><b>gpt_4.pt</b></td></tr>
   <tr><td>8250</td><td>1.7250</td><td>2.3813</td><td>10.82</td><td>0.474</td><td>0.739</td><td></td></tr>
   <tr><td>8500</td><td>1.7122</td><td>2.4061</td><td>11.09</td><td>0.469</td><td>0.738</td><td></td></tr>
   <tr><td>8750</td><td>1.6410</td><td>2.4195</td><td>11.24</td><td>0.470</td><td>0.737</td><td></td></tr>
