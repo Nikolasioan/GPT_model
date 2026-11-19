@@ -1,6 +1,6 @@
-# GPT from Scratch
+# GT from Scratch
 
-A GPT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation. The architecture is based on the Transformer introduced in [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017).
+A GT-style (decoder-only) language model built from scratch in PyTorch — tokenizer, attention, transformer blocks, training, and generation. The architecture is based on the Transformer introduced in [*Attention Is All You Need*](https://arxiv.org/abs/1706.03762) (Vaswani et al., 2017).
 
 
 ## Architecture
@@ -16,10 +16,10 @@ The model processes text one stage at a time:
 - **Final LayerNorm → Output Head** — a linear layer producing a score (logit) for every token in the vocabulary.
 - **Softmax → next token** — sample the prediction, append it, and repeat.
 
-It's **decoder-only** (like GPT): no encoder.
+It's **decoder-only**: no encoder.
 
 <p align="center">
-  <img src="README_IMAGES/gpt_arch.png" alt="GPT architecture" width="520">
+  <img src="README_IMAGES/gpt_arch.png" alt="GT architecture" width="520">
 </p>
 
 ---
